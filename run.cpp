@@ -35,27 +35,79 @@ void solve(){
   ll t = 1;
   // cin >> t;
   while(t--){
-    string s;
-    cin >> s;
-    ll n = s.length();
-    if(n < 10){
-      cout << 0 << endl;
-      continue;
-    }
-    vll v;
-    ll count = 0,h = 0, m = 0;
-    ll x;
+    ll n,count = 0;
+    cin >> n;
+    vll v(n);
     for (int i = 0; i < n; ++i){
-      if((s[i] == 'h' && s[i+1] == 'e' && s[i+2] == 'a' && s[i+3] == 'v' && s[i+4] == 'y')){
-        h++;
+       cin >> v[i];
+    }
+    if(n == 1){
+      cout << 1 << endl;
+      cout << "R" << endl;
+    }
+    else{
+    ll l = 0,r = n-1,min = 1;
+    string s1;
+    vll le,ri;
+    while(r>l){
+      le.pb(l);
+      ri.pb(r);
+      if(v[l] < v[r]){
+        if(v[l] >= min){
+        min = v[l];
+        s1.push_back('L');
+        l++;
+        continue;
+        }
+        if(v[r] >= min){
+        min = v[r];
+        s1.push_back('R');
+        r--;
+        continue;  
+        }
+        else{
+          break;
+        }
       }
-      if((s[i] == 'm' && s[i+1] == 'e' && s[i+2] == 't' && s[i+3] == 'a' && s[i+4] == 'l')){
-        m+=(h);
-        //h = 0;
+      if(v[r] < v[l]){
+        if(v[r] >= min){
+        min = v[r];
+        s1.push_back('R');
+        r--;
+        continue;
+        }
+        if(v[l] >= min){
+        min = v[l];
+        s1.push_back('L');
+        l++;
+        continue;  
+        }
+        else{
+          break;
+        }
       }
     }
-    cout << m << endl;
+    // cout << min << endl;
+    ll left = le[int(le.size())-1];
+    ll right = ri[int(ri.size())-1];
+    // cout << left << right << endl;
+    if(v[left] > min){
+      s1.push_back('L');
+    }
+    if(v[right] > min){
+      s1.push_back('R');
+    }
+    if(s1.length() == n){
+      s1.erase(s1.length()-1,1);
+      if(v[0] == 1)
+      s1.push_back('L');
+      if(v[n-1] == 1)
+      s1.push_back('R');
+    }
+    cout << s1.length() << endl;
+    cout << s1;
   }
+}
 }
 int main(){ 
   #ifndef ONLINE_JUDGE
